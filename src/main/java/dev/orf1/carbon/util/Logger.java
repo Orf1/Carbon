@@ -8,8 +8,8 @@ public final class Logger {
         System.out.println("Message: " + message);
     }
 
-    public static void errorLog(String errorMessage) {
-        System.out.println("[ERROR] There has been an error! ");
+    public static void errorLog(String errorMessage, String whileDoing) {
+        System.out.println("[ERROR] An error occurred while " + whileDoing + "!");
         System.out.println("[ERROR] Error Message: " + errorMessage);
     }
 }

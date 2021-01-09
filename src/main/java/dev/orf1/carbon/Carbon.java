@@ -1,6 +1,7 @@
 package dev.orf1.carbon;
 
 import dev.orf1.carbon.listener.impl.ConnectionListener;
+import dev.orf1.carbon.util.Logger;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Carbon {
         try {
             new Carbon(true);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            Logger.errorLog(exception.getMessage(), "Initializing the application");
         }
     }
 }
