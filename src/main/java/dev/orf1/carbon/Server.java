@@ -1,6 +1,8 @@
 package dev.orf1.carbon;
 
 import dev.orf1.carbon.listener.IListener;
+import dev.orf1.carbon.manager.UserManager;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,25 +12,33 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
 public class Server {
 
     private final Set<IListener> listeners = new HashSet<>();
-    private final int port;
+
+    private ServerSocket serverSocket;
+    private UserManager userManager;
+    private Thread server;
+
     private boolean receivingConnections = false;
     private boolean active = false;
-    private ServerSocket serverSocket;
-    private Thread server;
+
+    private final int port;
+
 
     public Server(int port) {
         this.port = port;
     }
 
     public void start() throws IOException {
-        receivingConnections = true;
-        serverSocket = new ServerSocket(port);
-        server = new Thread(() -> {
+        this.receivingConnections = true;
+        this.serverSocket = new ServerSocket(port);
+        this.userManager = new UserManager();
+
+        this.server = new Thread(() -> {
             while (receivingConnections) {
-                active = true;
+                this.active = true;
                 try {
                     Socket socket = serverSocket.accept();
                     ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
@@ -36,7 +46,7 @@ public class Server {
                     String raw = input.readUTF();
                     String data = raw.split("<:>")[0];
                     String message = raw.split("<:>")[1];
-                    for (IListener listener : listeners) {
+                    for (IListener listener : this.listeners) {
                         listener.onConnection(data, message, output);
                     }
                     input.close();
@@ -44,32 +54,32 @@ public class Server {
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
-                active = false;
+                this.active = false;
             }
         });
     }
 
     public void stop() throws IOException, InterruptedException {
-        receivingConnections = false;
-        if (active) {
+        this. receivingConnections = false;
+        if (this.active) {
             Thread.sleep(1000);
-            if (active) {
-                server.stop();
+            if (this.active) {
+                this.server.stop();
             }
         }
-        serverSocket.close();
+        this.serverSocket.close();
     }
 
     public void terminate() throws IOException, InterruptedException {
-        listeners.clear();
+        this.listeners.clear();
         stop();
     }
 
     public void registerListener(IListener listener) {
-        listeners.add(listener);
+        this.listeners.add(listener);
     }
 
     public void unregisterListener(IListener listener) {
-        listeners.remove(listener);
+        this.listeners.remove(listener);
     }
 }
