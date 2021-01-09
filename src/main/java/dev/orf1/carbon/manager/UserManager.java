@@ -20,7 +20,7 @@ public class UserManager {
         }
     }
 
-    public boolean isOnline(MessageUser messageUser) {
-        return (messageUser != null);
+    public boolean isOnline(String username) {
+        return MessageUser.getByUsername(username) != null;
     }
 }

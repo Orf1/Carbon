@@ -9,7 +9,9 @@ import java.io.IOException;
 @Getter
 public class Carbon {
 
+    @Getter
     private static Carbon instance;
+
     private Server server;
     private Client client;
 
