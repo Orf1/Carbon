@@ -43,12 +43,13 @@ public class Server {
                     Socket socket = serverSocket.accept();
                     ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
                     ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+
                     String raw = input.readUTF();
                     String data = raw.split("<:>")[0];
                     String message = raw.split("<:>")[1];
-                    for (IListener listener : this.listeners) {
-                        listener.onConnection(data, message, output);
-                    }
+
+                    this.listeners.forEach(iListener -> iListener.onConnection(data, message, output));
+
                     input.close();
                     output.close();
                 } catch (IOException exception) {
