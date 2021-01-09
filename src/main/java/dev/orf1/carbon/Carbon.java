@@ -7,7 +7,7 @@ public class Carbon implements IListener{
 
     public Carbon() throws IOException {
         Server server = new Server(42791);
-        server.registerListener(new Carbon());
+        server.registerListener(this);
         server.start();
     }
 
