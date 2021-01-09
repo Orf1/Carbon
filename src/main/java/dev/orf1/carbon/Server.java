@@ -1,5 +1,7 @@
 package dev.orf1.carbon;
 
+import dev.orf1.carbon.listener.IListener;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Server {
+
     private final Set<IListener> listeners = new HashSet<>();
     private final int port;
     private boolean receivingConnections = false;
