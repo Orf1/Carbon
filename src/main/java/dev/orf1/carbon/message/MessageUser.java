@@ -11,6 +11,4 @@ public class MessageUser {
         this.username = username;
         this.inetAddress = inetAddress;
     }
-
-
 }

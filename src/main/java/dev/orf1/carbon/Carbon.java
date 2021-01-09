@@ -1,10 +1,8 @@
 package dev.orf1.carbon;
 
-import dev.orf1.carbon.listener.IListener;
 import dev.orf1.carbon.listener.impl.ConnectionListener;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 public class Carbon {
 
