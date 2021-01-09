@@ -1,14 +1,17 @@
 package dev.orf1.carbon;
 
 import dev.orf1.carbon.listener.impl.ConnectionListener;
+import lombok.Getter;
 
 import java.io.IOException;
 
+@Getter
 public class Carbon {
 
     private static Carbon instance;
     private Server server;
     private Client client;
+
     private final boolean isServer;
 
     public Carbon(boolean isServer) throws IOException {
@@ -21,22 +24,6 @@ public class Carbon {
         } else {
             client = new Client("192.168.1.1", 42791);
         }
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public Server getServer() {
-        return server;
-    }
-
-    public boolean isServer() {
-        return isServer;
-    }
-
-    public static Carbon get() {
-        return instance;
     }
 
     public static void main(String[] args) {
